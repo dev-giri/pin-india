@@ -14,13 +14,15 @@ class DownloadCommand extends Command
 
     public function handle()
     {
-        $this->info('⏳ Downloading PinIndia data from API.DATA.GOV.IN. This may take a while.');
-
         $apiKey = config('pinindia.data_gov_in_api_key');
         if (!$apiKey) {
-            $this->error('API key not found. Please set DATA_GOV_IN_API_KEY in your .env file.');
+            $this->error('⚠️ data.gov.in API key not found!.');
+            $this->error('ⓘ Please set DATA_GOV_IN_API_KEY in your .env file.');
+            $this->error('🌐 Visit https://data.gov.in/ to get an API key.');
             return;
         }
+
+        $this->info('⏳ Downloading PinIndia data from API.DATA.GOV.IN. This may take a while.');
 
         $batchSize = 10000;
         $limit = 165314;

@@ -28,20 +28,27 @@ class InstallCommand extends Command
         // ]);
 
         Artisan::call('migrate');
+
+        $apiKey = config('pinindia.data_gov_in_api_key');
+        if (!$apiKey) {
+            $this->error('⚠️ data.gov.in API key not found!.');
+            $this->error('ⓘ Please set DATA_GOV_IN_API_KEY in your .env file.');
+            $this->error('🌐 Visit https://data.gov.in/ to get an API key.');
+            return;
+        }
         
         //PinIndia data seed
         $json_data_path = config('pinindia.data_path'); // 'pinindia/post_offices.json' by default
         if (!Storage::disk('local')->exists($json_data_path)) {
             $this->info('⏳ Downloading data from API.DATA.GOV.IN');
             Artisan::call('pinindia:download');
-            $this->info('Data downloaded successfully.');
+            $this->info(Artisan::output());
         }
 
         $this->info('⚡Seeding PinIndia data started');
         Artisan::call('db:seed', [
             '--class' => JsonPostOfficeSeeder::class,
         ]);
-
         $this->info(Artisan::output());
 
         $this->info('✅ PinIndia installed successfully.');

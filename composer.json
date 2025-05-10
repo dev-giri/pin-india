@@ -1,6 +1,6 @@
 {
     "name": "dev-giri/pin-india",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Laravel package for managing and querying Indian post office data",
     "keywords": ["laravel", "post office", "pincode", "india", "postal", "address", "location", "geolocation", "indian postoffice", "pincode verification", "pincode validation"],
     "type": "library",

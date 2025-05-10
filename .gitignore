@@ -1,2 +1,29 @@
+# Dependencies
 /vendor
-.php_cs.cache
+composer.lock
+
+# IDE and Editor files
+/.idea
+/.vscode
+/.phpstorm.meta.php
+/_ide_helper.php
+/_ide_helper_models.php
+.phpunit.result.cache
+.php-cs-fixer.cache
+
+# Testing and coverage
+/coverage
+/coverage-html
+.phpunit.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Package specific data files
+/storage/app/pinindia
+/storage/pinindia
+/pinindia/post_offices.json
+
+# Test database
+pinindia_test.sqlite

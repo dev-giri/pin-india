@@ -55,10 +55,10 @@ Available configuration options in `config/pinindia.php`:
 return [
     // Your data.gov.in API key for downloading postal data
     'data_gov_in_api_key' => env('DATA_GOV_IN_API_KEY'),
-    
+
     // Prefix for database tables (helps avoid conflicts)
     'table_prefix' => env('PININDIA_TABLE_PREFIX', 'pinindia'),
-    
+
     // Local storage path for downloaded postal data
     'data_path' => env('PININDIA_DATA_PATH', 'pinindia/post_offices.json'),
 ];
@@ -111,7 +111,7 @@ public function autocompleteStates(Request $request)
                 'name' => $state->name
             ];
         });
-    
+
     return response()->json($states);
 }
 
@@ -120,7 +120,7 @@ public function autocompleteDistricts(Request $request)
 {
     $query = $request->input('query');
     $stateId = $request->input('state_id');
-    
+
     $districts = District::when($stateId, function($q) use ($stateId) {
             return $q->where('state_id', $stateId);
         })
@@ -136,7 +136,7 @@ public function autocompleteDistricts(Request $request)
                 'state_name' => $district->state->name
             ];
         });
-    
+
     return response()->json($districts);
 }
 ```
@@ -370,65 +370,41 @@ Each model includes appropriate relationships for navigating the postal hierarch
 - When implementing location-based features, ensure you comply with applicable privacy laws and obtain appropriate user consent for collecting location data.
 - The MIT license of this package applies to the code only, not to the data retrieved from data.gov.in.
 
+## Testing
+
+
+The package includes a comprehensive test suite covering models, facades, resources, and services. To run the tests:
+
+```bash
+# Run all tests
+composer test
+
+# Run tests with coverage report
+composer test-coverage
+```
+
+### Test Requirements
+
+- The tests are configured to use MySQL by default, as some geospatial functions like `acos()` are required for distance calculations
+- You can configure the test database connection in the `phpunit.xml` file
+- Make sure you have a MySQL database named `pinindia_test` created before running the tests
+
+### Running Specific Test Groups
+
+```bash
+# Run only model tests
+vendor/bin/phpunit tests/Unit/Models
+
+# Run only facade tests
+vendor/bin/phpunit tests/Unit/Facades
+
+# Run only resource tests
+vendor/bin/phpunit tests/Unit/Resources
+
+# Run only service tests
+vendor/bin/phpunit tests/Unit/Services
+```
+
 ## License
 
 This package is open-sourced software licensed under the [MIT license](LICENSE).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

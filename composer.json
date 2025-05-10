@@ -16,6 +16,11 @@
         "PinIndia\\": "src/"
       }
     },
+    "autoload-dev": {
+      "psr-4": {
+        "Tests\\": "tests/"
+      }
+    },
     "extra": {
       "laravel": {
         "providers": [
@@ -26,6 +31,18 @@
     "require": {
       "php": "^8.0",
       "illuminate/support": "^9|^10|^11|^12"
-    }
+    },
+    "require-dev": {
+      "orchestra/testbench": "^7.0|^8.0",
+      "phpunit/phpunit": "^9.0|^10.0"
+    },
+    "scripts": {
+      "test": "vendor/bin/phpunit",
+      "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+      "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
   }
-  

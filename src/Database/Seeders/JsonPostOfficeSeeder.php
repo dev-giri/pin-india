@@ -15,6 +15,7 @@ class JsonPostOfficeSeeder extends Seeder
 
         if (!Storage::disk('local')->exists($jsonPath)) {
             $this->command->error('JSON file not found at: ' . $jsonPath);
+            throw new \Exception('JSON file not found at: ' . $jsonPath);
             return;
         }
 
@@ -146,6 +147,7 @@ class JsonPostOfficeSeeder extends Seeder
 
         } catch (\Exception $e) {
             $this->command->error('Failed to insert data: ' . $e->getMessage());
+            throw new \Exception('Failed to insert data: ' . $e->getMessage());
             return;
         }
 

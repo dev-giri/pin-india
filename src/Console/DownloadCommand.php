@@ -22,7 +22,8 @@ class DownloadCommand extends Command
             return;
         }
 
-        $this->info('⏳ Downloading PinIndia data from API.DATA.GOV.IN. This may take a while.');
+        $this->info('⏳ Downloading PinIndia data from API.DATA.GOV.IN.');
+        $this->info('⚠️ Please be patient. This may take a while.');
 
         $batchSize = 10000;
         $limit = 165314;
@@ -33,20 +34,30 @@ class DownloadCommand extends Command
             while ($offset < $limit) {
                 sleep(1);
                 $url = "https://api.data.gov.in/resource/5c2f62fe-5afa-4119-a499-fec9d604d5bd?api-key={$apiKey}&offset={$offset}&limit={$batchSize}&format=json";
-                $this->info("🌐 Fetching data from API.DATA.GOV.IN: {$url}");
-                $response = Http::timeout(60)->get($url);
+                
+                $response = Http::timeout(0)->retry(3)->get($url);
+                if ($response->failed()) {
+                    $this->error('Failed to fetch data: ' . $response->status());
+                    throw new \Exception('Failed to fetch data: ' . $response->status());
+                    return;
+                }
+
                 $data = array_merge($data, $response->json()['records']);
                 $limit = $response->json()['total']; // Update the limit to the total number of records
                 $offset += $batchSize; // Increment the offset by the batch size amount
-                $this->info("Fetched " . count($data) . " records so far.");
+                
+                $percentage = ($offset / $limit) * 100;
+                $this->info("⏳".$offset."/".$limit." records fetched. " . number_format($percentage, 2) . "% completed.");
             }
         } catch (\Exception $e) {
             $this->error('Failed to fetch data: ' . $e->getMessage());
+            throw new \Exception('Failed to fetch data: ' . $e->getMessage());
             return;
         }
 
         if (!isset($data) || !is_array($data) || empty($data)) {
             $this->error('No data found to download.');
+            throw new \Exception('No data found to download.');
             return;
         }
 

@@ -17,10 +17,10 @@ class UninstallCommand extends Command
 
     public function handle()
     {
-        $confirm = $this->confirm('⚠️ Are you sure?');
+        $confirm = $this->confirm('⚠️ Are you sure? This will delete all PinIndia related data.');
 
         if ($confirm) {
-            $this->warn("⚠️ Uninstalling PinIndia");
+            $this->warn("⚠️ Uninstalling PinIndia.");
 
             $table_prefix = config('pinindia.table_prefix') ? config('pinindia.table_prefix') . '_' : '';
 
@@ -94,7 +94,7 @@ class UninstallCommand extends Command
 
     protected function uninstallViaComposer()
     {
-        $this->warn('⚠️ Removing the package via Composer...');
+        $this->warn('⚠️ Removing the package via Composer.');
 
         $process = Process::fromShellCommandline('composer remove dev-giri/pin-india');
         // Optional: disable timeout completely
